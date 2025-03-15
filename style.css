@@ -1,0 +1,112 @@
+/* Reset général */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+/* Conteneur principal */
+#conteneur {
+    position: relative;
+    width: 800px;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Image de fond */
+#background-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+/* Conteneur des SVG */
+#svg-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+/* Ajustement des SVG */
+.svg-loaded {
+    position: absolute;
+    width: 100%;
+    height: auto;
+}
+
+/* Panneau de sélection des SVG */
+.svg-selector {
+    position: fixed;
+    bottom: 6em;
+    right: 2em;
+    z-index: 3;
+    display: flex;
+    gap: 10px;
+}
+
+.svg-button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #ddd;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.svg-button.active {
+    background-color: #ff7f00;
+    color: white;
+}
+
+/* Sélecteur de couleur */
+.color-picker-container {
+    position: fixed;
+    bottom: 2em;
+    right: 2em;
+    z-index: 3;
+    background: white;
+    padding: 0.8em;
+    border-radius: 12px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-picker-container label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+}
+
+#color-picker {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
