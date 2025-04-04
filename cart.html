@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart – Admiral</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="LogoSite.svg" alt="Logo Admiral" class="logo" />
+    </div>
+  </header>
+
+  <nav class="nav-links">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="pieces.html">Pieces</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html" class="active">Cart (<span id="cart-count">0</span>)</a></li>
+    </ul>
+  </nav>
+
+  <main class="fade-in">
+    <section class="cart-section">
+      <div id="cartItems"></div>
+      <p id="cartTotal" class="cart-total"></p>
+      <button id="clearCart" class="show-button">Empty the cart</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-text">© Admiral 2025</p>
+    <p class="footer-text">Ce site présente une marque fictive dans le cadre d’un projet scolaire.</p>
+    <p class="footer-text">Réalisé par Pierre Dion Delobre, étudiant en MMI2 – IUT de Corse.</p>
+  </footer>
+
+  <script>
+    const modeleData = {
+      tempest: {
+        title: "Model Tempest",
+        image: "Side.jpg",
+        description: "Un modèle puissant inspiré des tempêtes marines de Turner.",
+        price: "780 €"
+      },
+      laguna: {
+        title: "Model Laguna",
+        image: "Top.jpg",
+        description: "L’élégance tranquille de la lagune de Venise, traduite en finesse.",
+        price: "690 €"
+      },
+      beacon: {
+        title: "Model Beacon",
+        image: "Semelle.jpg",
+        description: "Ce modèle évoque un phare dans la tourmente : vertical, stable, rassurant.",
+        price: "750 €"
+      }
+    };
+
+    const cartContainer = document.getElementById("cartItems");
+    const totalDisplay = document.getElementById("cartTotal");
+    const clearButton = document.getElementById("clearCart");
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const updateCartCount = () => {
+      const span = document.getElementById("cart-count");
+      if (span) span.textContent = cart.length;
+    };
+
+    const updateCart = () => {
+      cartContainer.innerHTML = "";
+      totalDisplay.textContent = "";
+
+      if (cart.length === 0) {
+        cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+        clearButton.style.display = "none";
+        return;
+      }
+
+      clearButton.style.display = "inline-block";
+
+      let total = 0;
+
+      cart.forEach((ref, index) => {
+        const item = modeleData[ref];
+        if (!item) return;
+
+        const price = parseFloat(item.price.replace(/[^\d,]/g, '').replace(',', '.'));
+        total += price;
+
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.title}" />
+          <div class="cart-info">
+            <h2>${item.title} – ${item.price}</h2>
+            <p>${item.description}</p>
+            <button class="remove-btn" data-index="${index}">Delete</button>
+          </div>
+        `;
+        cartContainer.appendChild(div);
+      });
+
+      totalDisplay.textContent = `Total : ${total.toFixed(2)} €`;
+
+      document.querySelectorAll(".remove-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const i = parseInt(e.target.getAttribute("data-index"));
+          cart.splice(i, 1);
+          localStorage.setItem("cart", JSON.stringify(cart));
+          updateCart();
+          updateCartCount();
+        });
+      });
+    };
+
+    clearButton.addEventListener("click", () => {
+      localStorage.removeItem("cart");
+      cart = [];
+      updateCart();
+      updateCartCount();
+    });
+
+    updateCart();
+    updateCartCount();
+  </script>
+</body>
+</html>

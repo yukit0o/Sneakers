@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modèle – Admiral</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="LogoSite.svg" alt="Logo Admiral" class="logo" />
+        </div>
+    </header>
+
+    <nav class="nav-links">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pieces.html">Pieces</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
+        </ul>
+    </nav>
+
+    <main class="modele-page">
+        <div class="modele-container">
+            <!-- IMAGE + SVG + LOUPE -->
+            <div class="zoom-wrapper">
+                <div class="zoom-container">
+                    <img id="modeleImage" src="" alt="" class="zoom-image" />
+                    <div class="customization-layer">
+                        <img id="svgOverlay" class="svg-overlay" />
+                    </div>
+                    <div class="zoom-lens" id="zoom-lens"></div>
+                </div>
+            </div>
+
+            <!-- INFOS PRODUIT -->
+            <div class="modele-info">
+                <h1 id="modeleTitle"></h1>
+                <p id="modelePrice" class="modele-price"></p>
+                <p id="modeleDescription"></p>
+
+                <!-- BOUTONS -->
+                <div class="button-row">
+                    <button id="toggleSvgBtn" class="show-button alt-button">Modify</button>
+                    <button id="addToCartBtn" class="show-button">Add to cart</button>
+                    <a href="pieces.html" class="show-button">← Back to pieces</a>
+                </div>
+
+                <!-- PALETTE DE COULEURS -->
+                <div id="colorPicker" class="color-picker">
+                    <div class="color-swatch" data-color="#000000" style="background-color:#000000;"></div>
+                    <div class="color-swatch" data-color="#e63946" style="background-color:#e63946;"></div>
+                    <div class="color-swatch" data-color="#457b9d" style="background-color:#457b9d;"></div>
+                    <div class="color-swatch" data-color="#2a9d8f" style="background-color:#2a9d8f;"></div>
+                    <div class="color-swatch" data-color="#f4a261" style="background-color:#f4a261;"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p class="footer-text">© Admiral 2025</p>
+        <p class="footer-text">Ce site présente une marque fictive dans le cadre d’un projet scolaire.</p>
+        <p class="footer-text">Réalisé par Pierre Dion Delobre, étudiant en MMI2 – IUT de Corse.</p>
+    </footer>
+
+    <script src="transition.js"></script>
+    <script>
+        const modeleData = {
+            tempest: {
+                title: "Model Tempest",
+                image: "Semelle.jpg",
+                svg: "Tempest.svg",
+                description: "A powerful model inspired by Turner's maritime storms.",
+                price: "780 €"
+            },
+            laguna: {
+                title: "Model Laguna",
+                image: "Side.jpg",
+                svg: "Laguna.svg",
+                description: "The quiet elegance of the Venetian lagoon, translated with finesse.",
+                price: "690 €"
+            },
+            beacon: {
+                title: "Model Beacon",
+                image: "Top.jpg",
+                svg: "Beacon.svg",
+                description: "This model evokes a lighthouse in the storm: vertical, stable, reassuring.",
+                price: "750 €"
+            }
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const ref = params.get("ref");
+        const data = modeleData[ref];
+
+        const image = document.getElementById("modeleImage");
+        const title = document.getElementById("modeleTitle");
+        const desc = document.getElementById("modeleDescription");
+        const price = document.getElementById("modelePrice");
+        const svgOverlay = document.getElementById("svgOverlay");
+        const toggleBtn = document.getElementById("toggleSvgBtn");
+        const colorPicker = document.getElementById("colorPicker");
+
+        if (data) {
+            image.src = data.image;
+            image.alt = data.title;
+            title.textContent = data.title;
+            desc.textContent = data.description;
+            price.textContent = data.price;
+            svgOverlay.src = data.svg;
+            svgOverlay.style.display = "none";
+            colorPicker.style.display = "none";
+
+            document.getElementById("addToCartBtn").addEventListener("click", () => {
+                const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                cart.push(ref);
+                localStorage.setItem("cart", JSON.stringify(cart));
+                alert("Ajouté au panier !");
+            });
+
+            toggleBtn.addEventListener("click", () => {
+                const isVisible = svgOverlay.style.display === "block";
+                svgOverlay.style.display = isVisible ? "none" : "block";
+                colorPicker.style.display = isVisible ? "none" : "flex";
+                toggleBtn.textContent = isVisible ? "Modify" : "Hide customization";
+            });
+
+            document.querySelectorAll(".color-swatch").forEach(swatch => {
+                swatch.addEventListener("click", () => {
+                    const color = swatch.getAttribute("data-color");
+                    svgOverlay.style.backgroundColor = color;
+                });
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const count = (JSON.parse(localStorage.getItem("cart")) || []).length;
+            const span = document.getElementById("cart-count");
+            if (span) span.textContent = count;
+        });
+
+        const lens = document.getElementById("zoom-lens");
+        image.addEventListener("mouseenter", () => {
+            lens.style.visibility = "visible";
+            lens.style.backgroundImage = `url(${image.src})`;
+        });
+        image.addEventListener("mouseleave", () => {
+            lens.style.visibility = "hidden";
+        });
+        image.addEventListener("mousemove", (e) => {
+            const rect = image.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const lensSize = lens.offsetWidth / 2;
+            lens.style.left = `${x - lensSize}px`;
+            lens.style.top = `${y - lensSize}px`;
+            const percentX = x / image.width * 100;
+            const percentY = y / image.height * 100;
+            lens.style.backgroundPosition = `${percentX}% ${percentY}%`;
+        });
+    </script>
+</body>
+
+</html>

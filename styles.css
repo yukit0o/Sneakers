@@ -1,0 +1,578 @@
+@font-face {
+    font-family: 'Didot';
+    src: url('../fonts/Didot-Italic.woff2') format('woff2'),
+        url('../fonts/Didot-Italic.woff') format('woff'),
+        url('../fonts/Didot-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* BASE */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    font-family: 'Didot', serif;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* LOGO */
+.logo-container {
+    margin: 40px 0;
+}
+
+.logo {
+    width: 400px;
+    height: auto;
+}
+
+/* NAVIGATION */
+.nav-links {
+    position: sticky;
+    top: 0;
+    background-color: transparent;
+    /* ← plus de fond blanc */
+    z-index: 1000;
+    padding: 10px 0;
+    margin-top: 0;
+    backdrop-filter: blur(2px);
+    /* Optionnel : flou subtil si image derrière */
+}
+
+.nav-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 50px;
+    width: 88%;
+    flex-wrap: wrap;
+}
+
+.nav-links li a {
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+    font-style: italic;
+    font-family: 'Didot', serif;
+    font-size: 1.1em;
+    padding: 5px;
+    position: relative;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.nav-links li a:hover {
+    transform: scale(1.08);
+}
+
+.nav-links li a.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 100%;
+    height: 1px;
+    background-color: black;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+body.fade-out .nav-links li a.active::after {
+    opacity: 0;
+}
+
+/* PHRASE D’ACCROCHE */
+.PhraseHome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 60px 0 -150px 0;
+    gap: 30px;
+    position: relative;
+    z-index: 10;
+}
+
+.PhraseHome img {
+    max-width: 70%;
+    height: auto;
+}
+
+/* BOUTON "SHOW ME" */
+.show-button {
+    display: inline-block;
+    padding: 12px 24px;
+    font-family: 'Didot', serif;
+    font-size: 1em;
+    font-style: italic;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    text-align: center;
+}
+
+.show-button:hover {
+    opacity: 0.8;
+}
+
+/* IMAGE D’ACCUEIL (HOME) */
+.ImageHome {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 0;
+}
+
+.ImageHome img {
+    display: block;
+    max-width: 70%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+/* PAGE ABOUT */
+.hero {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.hero img {
+    max-width: 70%;
+    height: auto;
+}
+
+.description {
+    width: 70%;
+    margin: 20px auto;
+    font-size: 1em;
+    line-height: 1.6;
+    color: #333;
+    text-align: justify;
+    font-style: italic;
+    font-family: 'Didot', serif;
+}
+
+/* FOOTER */
+.site-footer {
+    position: relative;
+    z-index: 2;
+    margin-top: 0;
+    padding: 30px 20px;
+    background-color: #f8f8f8;
+    color: #444;
+    font-size: 0.85em;
+    font-style: italic;
+    font-family: 'Didot', serif;
+    text-align: center;
+    border-top: 1px solid #ddd;
+}
+
+.site-footer .footer-text {
+    margin: 4px 0;
+}
+
+/* FORMULAIRE DE CONTACT */
+.contact-section {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 0 20px;
+    text-align: left;
+    font-style: italic;
+    font-family: 'Didot', serif;
+}
+
+.contact-section h1 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 30px;
+}
+
+.contact-form label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-size: 1em;
+    color: #333;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    font-family: 'Didot', serif;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    background-color: #fafafa;
+    resize: vertical;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.form-buttons button {
+    padding: 12px 20px;
+    font-family: 'Didot', serif;
+    font-size: 1em;
+    font-style: italic;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+#sendBtn {
+    background-color: black;
+    color: white;
+}
+
+#sendBtn:hover {
+    opacity: 0.8;
+}
+
+#clearBtn {
+    background-color: #ddd;
+    color: black;
+}
+
+#clearBtn:hover {
+    opacity: 0.8;
+}
+
+.form-status {
+    margin-top: 20px;
+    font-style: italic;
+    color: green;
+    font-size: 0.95em;
+    text-align: center;
+}
+
+/* PIECES — GALERIE EN COLONNE */
+.pieces-gallery.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 80px;
+    padding: 60px 20px;
+}
+
+.piece-item {
+    text-align: center;
+    width: 100%;
+    max-width: 700px;
+}
+
+.piece-item img {
+    width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    transition: transform 0.3s ease;
+}
+
+.piece-item img:hover {
+    transform: scale(1.05);
+}
+
+.piece-title {
+    margin-top: 20px;
+    font-style: italic;
+    font-family: 'Didot', serif;
+    font-size: 1.6em;
+    color: #333;
+}
+
+/* TRANSITION DU CONTENU */
+main {
+    flex: 1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+main.fade-in {
+    opacity: 1;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .logo {
+        width: 300px;
+    }
+
+    .hero img,
+    .ImageHome img,
+    .PhraseHome img {
+        max-width: 90%;
+    }
+
+    .description {
+        width: 90%;
+        font-size: 1em;
+        padding: 0 15px;
+    }
+
+    .nav-links ul {
+        width: 100%;
+    }
+
+    .piece-item {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        width: 250px;
+    }
+
+    .description {
+        width: 95%;
+        font-size: 0.9em;
+    }
+
+    .nav-links ul {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+}
+
+.modele-page {
+    padding: 60px 20px;
+}
+
+.modele-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.modele-img {
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0);
+    transition: transform 0.2s ease;
+}
+
+.modele-img:hover {
+    transform: scale(1.02);
+}
+
+.modele-info {
+    flex: 1;
+    max-width: 500px;
+    text-align: left;
+}
+
+.modele-info h1 {
+    font-size: 2em;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.modele-price {
+    font-size: 1.3em;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.modele-info p {
+    line-height: 1.6;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.modele-info .show-button {
+    margin-right: 15px;
+}
+
+.cart-section {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 0 20px;
+    font-family: 'Didot', serif;
+}
+
+.cart-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 30px;
+}
+
+.cart-item img {
+    max-width: 200px;
+    height: auto;
+    border: 1px solid #ccc;
+}
+
+.cart-info {
+    flex: 1;
+    text-align: left;
+}
+
+.cart-info h2 {
+    font-size: 1.5em;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.cart-info p {
+    font-size: 1em;
+    line-height: 1.5;
+    color: #444;
+}
+
+.remove-btn {
+    margin-top: 15px;
+    padding: 8px 16px;
+    font-style: italic;
+    font-family: 'Didot', serif;
+    background-color: transparent;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.remove-btn:hover {
+    background-color: black;
+    color: white;
+}
+
+.cart-total {
+    font-size: 1.3em;
+    font-style: italic;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    color: black;
+}
+
+.zoom-container {
+    position: relative;
+    max-width: 500px;
+    width: 100%;
+}
+
+.zoom-image {
+    width: 100%;
+    display: block;
+}
+
+.zoom-lens {
+    position: absolute;
+    border: 2px solid black;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    visibility: hidden;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-size: 600%;
+    z-index: 10;
+    width: 200px;
+    height: 200px;
+}
+
+/* WRAPPER POUR IMAGE ET LOUPE DANS MODELE.HTML */
+.zoom-wrapper {
+    max-width: 500px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes lens-appear {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.zoom-lens {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.customization-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.svg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: multiply;
+    opacity: 1;
+    pointer-events: none;
+    transition: background-color 0.3s ease;
+}
+
+.button-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.alt-button {
+    background-color: transparent;
+    color: black;
+    border: 2px solid black;
+}
+
+.alt-button:hover {
+    background-color: black;
+    color: white;
+}
+
+.color-picker {
+    display: none;
+    margin-top: 20px;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.color-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #000;
+    cursor: pointer;
+}

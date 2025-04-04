@@ -2,36 +2,54 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Sneakers Custom</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admiral</title>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
+<body class="home">
+    <header>
+        <div class="logo-container">
+            <img src="LogoSite.svg" alt="Logo Admiral" class="logo" />
+        </div>
+    </header>
 
-    <div id="conteneur">
-        <!-- Image de fond -->
-        <img id="background-image" src="shoe.jpg" alt="Sneakers">
+    <nav class="nav-links">
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="pieces.html">Pieces</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
+        </ul>
+    </nav>
 
-        <!-- Conteneur pour charger dynamiquement les SVG -->
-        <div id="svg-container"></div>
-    </div>
+    <main>
+        <section class="PhraseHome">
+            <img src="PhraseHome.svg" alt="Phrase accueil" />
+            <a href="pieces.html" class="show-button">Show me</a>
+        </section>
 
-    <!-- Sélection des parties de la chaussure -->
-    <div class="svg-selector">
-        <button class="svg-button active" data-target="svg1">Languette</button>
-        <button class="svg-button" data-target="svg2">Semelle</button>
-        <button class="svg-button" data-target="svg3">Côté</button>
-    </div>
+        <section class="ImageHome">
+            <img src="ImageHome.png" alt="Image accueil" />
+        </section>
+    </main>
 
-    <!-- Sélecteur de couleur -->
-    <div class="color-picker-container">
-        <input type="color" id="color-picker" value="#ff7f00">
-    </div>
+    <footer class="site-footer">
+        <p class="footer-text">© Admiral 2025</p>
+        <p class="footer-text">Ce site présente une marque fictive dans le cadre d’un projet scolaire.</p>
+        <p class="footer-text">Réalisé par Pierre Dion Delobre, étudiant en MMI2 – IUT de Corse.</p>
+    </footer>
 
-    <script src="script.js"></script>
-
+    <script src="transition.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const count = (JSON.parse(localStorage.getItem("cart")) || []).length;
+            const span = document.getElementById("cart-count");
+            if (span) span.textContent = count;
+        });
+    </script>
 </body>
 
 </html>

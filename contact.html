@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact – Admiral</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="LogoSite.svg" alt="Logo Admiral" class="logo" />
+        </div>
+    </header>
+
+    <nav class="nav-links">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pieces.html">Pieces</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+            <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="contact-section">
+            <h1>Contact us</h1>
+            <form class="contact-form" action="#" method="post">
+                <label for="name">Name :</label>
+                <input type="text" id="name" name="name" required />
+
+                <label for="email">Email :</label>
+                <input type="email" id="email" name="email" required />
+
+                <label for="message">Message :</label>
+                <textarea id="message" name="message" rows="6" required></textarea>
+
+                <div class="form-buttons">
+                    <button type="submit" id="sendBtn">Send</button>
+                    <button type="button" id="clearBtn">Clear</button>
+                </div>
+                <p class="form-status" id="formStatus"></p>
+            </form>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p class="footer-text">© Admiral 2025</p>
+        <p class="footer-text">Ce site présente une marque fictive dans le cadre d’un projet scolaire.</p>
+        <p class="footer-text">Réalisé par Pierre Dion Delobre, étudiant en MMI2 – IUT de Corse.</p>
+    </footer>
+
+    <script>
+        const form = document.querySelector(".contact-form");
+        const sendBtn = document.getElementById("sendBtn");
+        const clearBtn = document.getElementById("clearBtn");
+        const formStatus = document.getElementById("formStatus");
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            sendBtn.disabled = true;
+            sendBtn.textContent = "Sending your message...";
+            formStatus.textContent = "";
+
+            setTimeout(() => {
+                sendBtn.textContent = "Send";
+                sendBtn.disabled = false;
+                formStatus.textContent = "Message sent ✅";
+            }, 2000);
+        });
+
+        clearBtn.addEventListener("click", () => {
+            form.reset();
+            formStatus.textContent = "";
+        });
+    </script>
+
+    <script src="transition.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const count = (JSON.parse(localStorage.getItem("cart")) || []).length;
+          const span = document.getElementById("cart-count");
+          if (span) span.textContent = count;
+        });
+      </script>
+</body>
+
+</html>
