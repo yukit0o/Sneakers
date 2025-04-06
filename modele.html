@@ -31,9 +31,7 @@
             <div class="zoom-wrapper">
                 <div class="zoom-container">
                     <img id="modeleImage" src="" alt="" class="zoom-image" />
-                    <div class="customization-layer">
-                        <img id="svgOverlay" class="svg-overlay" />
-                    </div>
+                    <div id="svgOverlay" class="customization-layer"></div>
                     <div class="zoom-lens" id="zoom-lens"></div>
                 </div>
             </div>
@@ -53,11 +51,11 @@
 
                 <!-- PALETTE DE COULEURS -->
                 <div id="colorPicker" class="color-picker">
-                    <div class="color-swatch" data-color="#000000" style="background-color:#000000;"></div>
-                    <div class="color-swatch" data-color="#e63946" style="background-color:#e63946;"></div>
+                    <div class="color-swatch" data-color="#EAEBE6" style="background-color:#EAEBE6;"></div>
+                    <div class="color-swatch" data-color="#1B1A0E" style="background-color:#1B1A0E;"></div>
                     <div class="color-swatch" data-color="#457b9d" style="background-color:#457b9d;"></div>
-                    <div class="color-swatch" data-color="#2a9d8f" style="background-color:#2a9d8f;"></div>
-                    <div class="color-swatch" data-color="#f4a261" style="background-color:#f4a261;"></div>
+                    <div class="color-swatch" data-color="#CCA943" style="background-color:#CCA943;"></div>
+                    <div class="color-swatch" data-color="#B76531" style="background-color:#B76531;"></div>
                 </div>
             </div>
         </div>
@@ -107,16 +105,16 @@
         const toggleBtn = document.getElementById("toggleSvgBtn");
         const colorPicker = document.getElementById("colorPicker");
 
+        let currentSVG = null;
+
         if (data) {
             image.src = data.image;
             image.alt = data.title;
             title.textContent = data.title;
             desc.textContent = data.description;
             price.textContent = data.price;
-            svgOverlay.src = data.svg;
-            svgOverlay.style.display = "none";
-            colorPicker.style.display = "none";
 
+            // Ajout au panier
             document.getElementById("addToCartBtn").addEventListener("click", () => {
                 const cart = JSON.parse(localStorage.getItem("cart")) || [];
                 cart.push(ref);
@@ -124,27 +122,39 @@
                 alert("Ajouté au panier !");
             });
 
+            // Afficher/Masquer personnalisation
             toggleBtn.addEventListener("click", () => {
-                const isVisible = svgOverlay.style.display === "block";
+                const isVisible = svgOverlay.style.display !== "none";
                 svgOverlay.style.display = isVisible ? "none" : "block";
                 colorPicker.style.display = isVisible ? "none" : "flex";
                 toggleBtn.textContent = isVisible ? "Modify" : "Hide customization";
             });
 
-            document.querySelectorAll(".color-swatch").forEach(swatch => {
-                swatch.addEventListener("click", () => {
-                    const color = swatch.getAttribute("data-color");
-                    svgOverlay.style.backgroundColor = color;
-                });
-            });
+            // Charger SVG inline
+            fetch(data.svg)
+                .then(res => res.text())
+                .then(svgText => {
+                    svgOverlay.innerHTML = svgText;
+                    const svgElement = svgOverlay.querySelector("svg");
+                    svgElement.style.width = "100%";
+                    svgElement.style.height = "auto";
+                    currentSVG = svgElement;
+                })
+                .catch(err => console.error("Erreur chargement SVG :", err));
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const count = (JSON.parse(localStorage.getItem("cart")) || []).length;
-            const span = document.getElementById("cart-count");
-            if (span) span.textContent = count;
+        // Sélection de couleur
+        document.querySelectorAll(".color-swatch").forEach(swatch => {
+            swatch.addEventListener("click", () => {
+                if (!currentSVG) return;
+                const color = swatch.getAttribute("data-color");
+                currentSVG.querySelectorAll("path").forEach(path => {
+                    path.setAttribute("fill", color);
+                });
+            });
         });
 
+        // Zoom
         const lens = document.getElementById("zoom-lens");
         image.addEventListener("mouseenter", () => {
             lens.style.visibility = "visible";
@@ -163,6 +173,13 @@
             const percentX = x / image.width * 100;
             const percentY = y / image.height * 100;
             lens.style.backgroundPosition = `${percentX}% ${percentY}%`;
+        });
+
+        // Compteur panier
+        document.addEventListener("DOMContentLoaded", () => {
+            const count = (JSON.parse(localStorage.getItem("cart")) || []).length;
+            const span = document.getElementById("cart-count");
+            if (span) span.textContent = count;
         });
     </script>
 </body>
